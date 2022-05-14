@@ -62,7 +62,7 @@ class Play {
         }
         else {
             this.player.body.velocity.x = 0
-            this.player.setFrame(0)
+            this.player.setFrame
         }
 
         if(this.arrow.up.isDown && this.player.body.onFloor()) {
@@ -72,6 +72,7 @@ class Play {
     }
 
     playerDie() {
+        console.log(this.score)
         this.scene.start('menu', { score: this.score })
         this.deadSound.play()
     }
@@ -101,7 +102,21 @@ class Play {
         
         this.updateCoinPosition()
 
+        this.coin.setScale(0)
+        this.tweens.add({
+            targets: this.coin,
+            scale: 1,
+            duration: 300
+        })
+
         this.coinSound.play()
+
+        this.tweens.add({
+            targets: this.player, 
+            scale: 1.3,
+            duration: 100,
+            yoyo: true
+        })
     }
 
     addEnemy() {
