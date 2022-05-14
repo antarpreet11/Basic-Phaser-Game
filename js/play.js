@@ -49,6 +49,16 @@ class Play {
             frameRate: 8,
             repeat: -1
         })
+
+        let particles = this.add.particles('pixel')
+
+        this.emitter = particles.createEmitter({
+            quantity: 20,
+            speed: { min: -150, max: 150},
+            scale: { start: 2, end: 0.1},
+            lifespan: 800,
+            on: false
+        })
     }
 
     movePlayer() {
@@ -72,9 +82,17 @@ class Play {
     }
 
     playerDie() {
-        console.log(this.score)
-        this.scene.start('menu', { score: this.score })
+        this.cameras.main.shake(300, 0.02)
+        this.player.destroy()
         this.deadSound.play()
+        
+        this.emitter.setPosition(this.player.x, this.player.y)
+        this.emitter.explode()
+
+        this.time.addEvent({
+            delay: 1000,
+            callback: () => this.scene.start('menu', { score: this.score })
+        })
     }
 
     updateCoinPosition() {
@@ -135,6 +153,9 @@ class Play {
     update() {
         this.physics.collide(this.player, this.walls)
         this.physics.collide(this.enemies, this.walls)
+        if(!this.player.active) {
+            return
+        }
         this.movePlayer()
         if(this.player.y > 340 || this.player.y < 0) {
             this.playerDie()
