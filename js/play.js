@@ -33,6 +33,9 @@ class Play {
             callback: () => this.addEnemy(),
             loop: true
         })
+        this.jumpSound = this.sound.add('jump')
+        this.coinSound = this.sound.add('coin')
+        this.deadSound = this.sound.add('dead')
     }
 
     movePlayer() {
@@ -48,11 +51,13 @@ class Play {
 
         if(this.arrow.up.isDown && this.player.body.onFloor()) {
             this.player.body.velocity.y = -320
+            this.jumpSound.play()
         }
     }
 
     playerDie() {
         this.scene.start('menu', { score: this.score })
+        this.deadSound.play()
     }
 
     updateCoinPosition() {
@@ -79,6 +84,8 @@ class Play {
         this.scoreLabel.setText(`score: ${this.score}`)
         
         this.updateCoinPosition()
+
+        this.coinSound.play()
     }
 
     addEnemy() {
