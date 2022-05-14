@@ -15,6 +15,13 @@ class Menu {
             ease: 'bounce.out'
         })
 
+        if(localStorage.getItem('bestScore') === null) {
+            localStorage.setItem('bestScore', 0)
+        }
+        if(score > localStorage.getItem('bestScore')) {
+            localStorage.setItem('bestScore', score)
+        }
+
         if(score == -1) {
             let scoreText = `Welcome!`
             let scoreLabel = this.add.text(250, 170, scoreText, 
@@ -22,12 +29,12 @@ class Menu {
             scoreLabel.setOrigin(0.5, 0.5)
         }
         else {
-            let scoreText = `Score: ${score}`
+            let scoreText = `Score: ${score} \nBest Score: ${localStorage.getItem('bestScore')}`
             let scoreLabel = this.add.text(250, 170, scoreText, 
-            { font: '25px Arial', fill: '#fff' })
+            { font: '25px Arial', fill: '#fff', align: 'center' })
             scoreLabel.setOrigin(0.5, 0.5)
-        }    
-
+        }
+        
         let startText = 'Press the up arrow key to start'
         let startLabel = this.add.text(250, 250, startText, 
         { font: '25px Arial', fill: '#fff' })
