@@ -28,11 +28,8 @@ class Play {
         { font: '18px Arial' , fill: '#fff'})
         this.score = 0
         this.enemies = this.physics.add.group()
-        this.time.addEvent({
-            delay: 2000, 
-            callback: () => this.addEnemy(),
-            loop: true
-        })
+        this.nextEnemy = 0
+
         this.jumpSound = this.sound.add('jump')
         this.coinSound = this.sound.add('coin')
         this.deadSound = this.sound.add('dead')
@@ -72,7 +69,7 @@ class Play {
         }
         else {
             this.player.body.velocity.x = 0
-            this.player.setFrame
+            this.player.setFrame(0)
         }
 
         if(this.arrow.up.isDown && this.player.body.onFloor()) {
@@ -165,6 +162,19 @@ class Play {
         }
         if(this.physics.overlap(this.player, this.enemies)) {
             this.playerDie()
+        }
+
+        let now = Date.now()
+        if(this.nextEnemy < now) {
+            let startDifficulty = 4000
+            let endDifficulty = 1000
+            let scoreToReachEndDifficulty = 100
+
+            let progress = Math.min(this.score / scoreToReachEndDifficulty, 1)
+            let delay = startDifficulty + (endDifficulty - startDifficulty)*progress
+            
+            this.addEnemy()
+            this.nextEnemy = now + delay
         }
     }
 }

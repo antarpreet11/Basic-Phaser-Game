@@ -6,7 +6,7 @@ class Menu {
         this.add.image(250, 170, 'background')
         
         let nameLabel = this.add.text(250, -50, 'Super Coin Box', 
-        { font: '50px Arial', fill: '#fff' })
+        { font: '70px Geo', fill: '#fff' })
         nameLabel.setOrigin(0.5, 0.5)
         this.tweens.add({
             targets: nameLabel,
